@@ -3,7 +3,10 @@ import type { HTMLMotionProps } from "framer-motion";
 import type { MouseEvent } from "react";
 import useSound from "../../hooks/useSound";
 
-type ButtonProps = HTMLMotionProps<"button"> & {
+type ButtonProps = Omit<
+  HTMLMotionProps<"button">,
+  "onAnimationStart" | "onAnimationEnd" | "onAnimationIteration"
+> & {
   variant?: "solid" | "ghost" | "outline";
 };
 
