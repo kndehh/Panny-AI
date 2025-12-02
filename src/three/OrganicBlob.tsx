@@ -12,8 +12,8 @@ export default function OrganicBlob({ color = "#93BFC7" }: { color?: string }) {
   return (
     <mesh ref={ref} position={[0, 0, 0]}>
       <sphereGeometry args={[3.4, 64, 64]} />
-      {/* @ts-expect-error React Three Fiber types are not resolving meshStandardMaterial props in bundler mode */}
       <meshStandardMaterial
+        // @ts-expect-error React Three Fiber types are not resolving meshStandardMaterial props in bundler mode
         color={color}
         transparent
         opacity={0.25}

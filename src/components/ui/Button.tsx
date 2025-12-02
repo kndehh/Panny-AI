@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import type { ButtonHTMLAttributes, MouseEvent } from "react";
+import type { HTMLMotionProps } from "framer-motion";
+import type { MouseEvent } from "react";
 import useSound from "../../hooks/useSound";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = HTMLMotionProps<"button"> & {
   variant?: "solid" | "ghost" | "outline";
 };
 
