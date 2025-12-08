@@ -1,9 +1,9 @@
 # Ignore the server folder and Python-related files from Vercel deploy
 
 server/
-server/**
-*.py
-*.pyc
-__pycache__/
+server/\*\*
+_.py
+_.pyc
+**pycache**/
 venv/
 .env
