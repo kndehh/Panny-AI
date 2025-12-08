@@ -1,4 +1,5 @@
 # Ignore the server folder and Python-related files from Vercel deploy
+
 server/
 server/**
 *.py
