@@ -1,4 +1,4 @@
-# Ignore the server folder and Python-related files from Vercel deploy
+# Ignore backend/server and Python artifacts from Vercel deploy
 
 server/
 server/\*\*

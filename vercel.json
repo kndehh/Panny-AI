@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "frontEnd/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": { "distDir": "frontEnd/dist" }
     }
   ],
   "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
-  "installCommand": "npm ci --include=dev",
-  "buildCommand": "npm run build",
+  "installCommand": "cd frontEnd && npm ci --include=dev",
+  "buildCommand": "cd frontEnd && npm run build",
   "env": {
     "NPM_FLAGS": "--include=dev"
   }
