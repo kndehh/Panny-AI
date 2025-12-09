@@ -3,3 +3,13 @@
   width: 100%;
   isolation: isolate;
 }
+
+/* Safety net: force mobile nav under 1024px if Tailwind classes fail */
+@media (max-width: 1023px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-nav {
+    display: block !important;
+  }
+}

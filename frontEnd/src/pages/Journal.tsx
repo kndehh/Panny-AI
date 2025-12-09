@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Badge from "../components/ui/Badge";
+import Button from "../components/ui/Button";
 
 const entries = [
   {
@@ -9,6 +10,7 @@ const entries = [
     excerpt:
       "I noticed the trees leaned toward the river today. Felt like an invitation.",
     time: "19:42",
+    href: "/chat?session=twilight-walk",
   },
   {
     title: "Fri · Midday reset",
@@ -17,6 +19,7 @@ const entries = [
     excerpt:
       "Heart raced during standup. Practiced square breathing and grounded.",
     time: "12:14",
+    href: "/chat?session=midday-reset",
   },
   {
     title: "Thu · Dawn pages",
@@ -24,6 +27,7 @@ const entries = [
     tone: "Hopeful",
     excerpt: "Asked Panny to mirror my future-self letter. Felt more possible.",
     time: "06:03",
+    href: "/chat?session=dawn-pages",
   },
 ];
 
@@ -91,6 +95,15 @@ export default function Journal() {
               <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-[0.4em] text-[var(--text-tertiary)] dark:text-white/60">
                 <span>Mood · {entry.mood}</span>
                 <span>Tone · {entry.tone}</span>
+              </div>
+              <div className="mt-4">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-[var(--surface-lines)] text-xs text-[var(--text-primary)] dark:border-white/20 dark:text-white"
+                >
+                  <a href={entry.href}>Open session</a>
+                </Button>
               </div>
             </motion.article>
           ))}
