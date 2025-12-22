@@ -1,9 +1,0 @@
-# Ignore backend/server and Python artifacts from Vercel deploy
-
-server/
-server/\*\*
-_.py
-_.pyc
-**pycache**/
-venv/
-.env
