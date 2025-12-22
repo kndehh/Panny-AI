@@ -1,6 +1,6 @@
 # 👋😆 Panny Your AI Companion 👋😆
 
-Welcome to **Panny** your AI Companion, an empathetic AI companion designed to support users through warm, non-judgmental conversation and personal journaling. Panny focuses on listening, asking gentle follow-up questions, and helping users reflect — it is not a substitute for professional care. For safety, the assistant encourages users to seek immediate professional help and resources if they indicate self-harm or crisis.
+Welcome to **Panny** your AI Companion, an empathetic AI companion designed to support users through warm, non-judgmental conversation and personal journaling. Panny focuses on listening, asking gentle follow-up questions, and helping users reflect, it is not a substitute for professional care. For safety, the assistant encourages users to seek immediate professional help and resources if they indicate self-harm or crisis.
 
 ## Screenshots
 
