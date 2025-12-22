@@ -7,7 +7,7 @@ Welcome to **Panny** your AI Companion, an empathetic AI companion designed to s
 ![Screenshot of Panny Home Page](/HomePage.png)
 <br>
 
-## 🛠️ Features
+## Features
 
 - **Empathetic Chat** — A warm, supportive conversational agent that asks gentle follow-ups and does not diagnose.
 - **Personal Journals** — Keep private journal entries and review past sessions for reflection.
