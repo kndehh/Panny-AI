@@ -4,7 +4,7 @@ Welcome to **Panny** your AI Companion, an empathetic AI companion designed to s
 
 ## Screenshots
 
-![Screenshot of Panny Home Page](/HomePage.png)
+![A Screenshot of the Panny Home Page](/HomePage.png)
 <br>
 
 ## Features
