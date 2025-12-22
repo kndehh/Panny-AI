@@ -26,7 +26,7 @@ export function Tab({ active = false, children, onClick }: TabProps) {
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.96 }}
       transition={{ type: "spring", stiffness: 320, damping: 22 }}
-      className={`relative flex-1 overflow-hidden rounded-2xl px-3 py-2 text-left ${
+      className={`relative flex-1 overflow-hidden rounded-2xl px-3 py-2 text-left  ${
         active
           ? "text-black shadow-sm dark:text-white"
           : "text-[var(--text-secondary)] dark:text-white/70"

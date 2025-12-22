@@ -1,14 +1,20 @@
-import type { TextareaHTMLAttributes } from "react";
+import { forwardRef, type TextareaHTMLAttributes } from "react";
 
-export default function Textarea(
-  props: TextareaHTMLAttributes<HTMLTextAreaElement>
-) {
+const Textarea = forwardRef<
+  HTMLTextAreaElement,
+  TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ className, ...props }, ref) => {
   return (
     <textarea
+      ref={ref}
       {...props}
       className={`rounded-2xl border border-[var(--surface-lines)] bg-[var(--surface)] px-3 py-2 text-[var(--text-primary)] outline-none transition dark:bg-white/5 dark:text-white ${
-        props.className ?? ""
+        className ?? ""
       }`}
     />
   );
-}
+});
+
+Textarea.displayName = "Textarea";
+
+export default Textarea;

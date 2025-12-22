@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, startTransition } from "react";
+import { useEffect, useState, startTransition } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,6 +17,8 @@ import PageTransitionWrapper from "./components/PageTransitionWrapper";
 import LoadingScreen from "./components/LoadingScreen";
 import { usePannyStore } from "./store/usePannyStore";
 import { motion, AnimatePresence as FMAnimatePresence } from "framer-motion";
+import { Toaster } from "sonner";
+import { useInactivityLogout } from "./hooks/useInactivityLogout";
 import "./App.css";
 
 // One shared QueryClient for the whole app; keep it outside render to avoid re-creating.
@@ -25,10 +27,12 @@ const queryClient = new QueryClient();
 function App() {
   useTheme();
   useSound();
+  useInactivityLogout();
   const theme = usePannyStore((s) => s.theme);
+
   const [ready, setReady] = useState(false);
-  const zenAudioRef = useRef<HTMLAudioElement | null>(null);
   const [showThemeSpinner, setShowThemeSpinner] = useState(false);
+
   const gradientStyle = {
     backgroundImage:
       "radial-gradient(circle at top, var(--glow-one), transparent 55%)," +
@@ -36,16 +40,10 @@ function App() {
       "linear-gradient(180deg, var(--bg-gradient-top), var(--bg-base))",
   };
 
-  // Drive zen music from the sound toggle; plays when enabled, pauses when disabled.
-  const setZenMusicEnabled = (enabled: boolean) => {
-    const audio = zenAudioRef.current;
-    if (!audio) return;
-    if (enabled) {
-      audio.play();
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-    }
+  // Keep the toggle button, but disable zen music playback completely.
+  const setZenMusicEnabled = (_enabled: boolean) => {
+    // Intentionally no-op (audio removed)
+    return;
   };
 
   useEffect(() => {
@@ -68,7 +66,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <MotionConfig reducedMotion="never">
           <div className="soft-scroll relative min-h-screen overflow-hidden bg-transparent">
             <div
@@ -80,10 +80,32 @@ function App() {
               <div className="absolute -left-32 top-24 h-64 w-64 rounded-full bg-[var(--glow-one)] blur-[120px]" />
               <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-[var(--glow-two)] blur-[140px]" />
             </div>
+
+            {/* Toggle stays, but it won’t start any audio now */}
             <FloatingNavbar onSoundToggle={setZenMusicEnabled} />
+
             <AnimatedCursor />
 
-            <main className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-44 md:px-8 md:pt-44">
+            <Toaster
+              position="bottom-center"
+              theme={theme}
+              toastOptions={{
+                style: {
+                  background:
+                    theme === "dark"
+                      ? "rgba(30, 30, 30, 0.95)"
+                      : "rgba(255, 255, 255, 0.95)",
+                  border:
+                    theme === "dark"
+                      ? "1px solid rgba(255, 255, 255, 0.1)"
+                      : "1px solid rgba(0, 0, 0, 0.1)",
+                  color: theme === "dark" ? "#fff" : "#1a1a1a",
+                  backdropFilter: "blur(10px)",
+                },
+              }}
+            />
+
+            <main className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-28 md:px-8 md:pt-44">
               <Routes>
                 <Route
                   path="/"
@@ -144,7 +166,6 @@ function App() {
               </Routes>
             </main>
 
-            {/* Theme transition spinner to smooth light/dark flips */}
             <FMAnimatePresence>
               {showThemeSpinner && (
                 <motion.div
@@ -158,22 +179,20 @@ function App() {
                   <motion.div
                     className="h-14 w-14 rounded-full border-4 border-[var(--surface-lines)] border-t-panny-green1"
                     animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.8,
+                      ease: "linear",
+                    }}
                     aria-label="Switching theme"
                   />
                 </motion.div>
               )}
             </FMAnimatePresence>
+
             <AnimatePresence>{!ready && <LoadingScreen />}</AnimatePresence>
 
-            {/* Hidden audio element we control via toggleZenMusic */}
-            <audio
-              ref={zenAudioRef}
-              src="/audio/zen.mp3"
-              loop
-              preload="auto"
-              className="hidden"
-            />
+            {/* audio element removed */}
           </div>
         </MotionConfig>
       </BrowserRouter>

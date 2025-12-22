@@ -27,7 +27,7 @@ function FloatingParticles({
   return (
     <mesh ref={meshRef} position={[0, 0, 0]}>
       <icosahedronGeometry args={[4, 4]} />
-      {/* @ts-expect-error React Three Fiber types are not resolving meshStandardMaterial props in bundler mode */}
+      {/* @ts-ignore React Three Fiber types are not resolving meshStandardMaterial props in bundler mode */}
       <meshStandardMaterial transparent opacity={0.25} color="#93BFC7" />
     </mesh>
   );

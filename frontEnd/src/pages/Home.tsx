@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ThreeSceneWrapper from "../components/ThreeSceneWrapper";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
+import { usePannyStore } from "../store/usePannyStore";
 
 const rituals = [
   {
@@ -19,23 +21,50 @@ const rituals = [
   },
 ];
 
-const signals = [
-  {
-    label: "Heartbeat steady",
-    value: "62 bpm",
-    accent: "from-panny-green1/50 to-panny-green2/30",
-  },
-  {
-    label: "Mood blend",
-    value: "Warm · Reflective",
-    accent: "from-[#F4C4F3]/30 to-[#FC67FA]/10",
-  },
-  {
-    label: "Focus timer",
-    value: "18 min flow",
-    accent: "from-[#2AFADF]/30 to-[#4C83FF]/10",
-  },
-];
+// Helper to format Jakarta time (GMT+7)
+function getJakartaDateTime() {
+  const now = new Date();
+  const jakartaTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Jakarta" })
+  );
+
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const dayName = days[jakartaTime.getDay()];
+  const day = jakartaTime.getDate();
+  const month = months[jakartaTime.getMonth()];
+  const hours = jakartaTime.getHours().toString().padStart(2, "0");
+  const minutes = jakartaTime.getMinutes().toString().padStart(2, "0");
+  const seconds = jakartaTime.getSeconds().toString().padStart(2, "0");
+
+  return `${dayName}, ${day} ${month} · ${hours}:${minutes}:${seconds}`;
+}
+
+// Helper to format total journaling/chat time
+function formatTotalTime(ms: number) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m total`;
+  }
+  return `${minutes} min total`;
+}
 
 const insights = [
   {
@@ -50,6 +79,47 @@ const insights = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const totalJournalingTimeStored = usePannyStore((s) => s.totalJournalingTime);
+  const sessionStartTime = usePannyStore((s) => s.sessionStartTime);
+  const [jakartaTime, setJakartaTime] = useState(getJakartaDateTime());
+  const [currentSessionTime, setCurrentSessionTime] = useState(0);
+
+  // Update Jakarta time every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setJakartaTime(getJakartaDateTime());
+      // Update current session time if session is active
+      if (sessionStartTime) {
+        setCurrentSessionTime(Date.now() - sessionStartTime);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [sessionStartTime]);
+
+  // Calculate total journaling/chat time (stored + current session)
+  const totalJournalingTime = totalJournalingTimeStored + currentSessionTime;
+
+  const signals = [
+    {
+      label: "Today's date & time",
+      value: jakartaTime,
+      accent: "from-panny-green1/50 to-panny-green2/30",
+    },
+    {
+      label: "Mood blend",
+      value: "Warm · Reflective",
+      accent: "from-[#F4C4F3]/30 to-[#FC67FA]/10",
+    },
+    {
+      label: "Total journaling time",
+      value:
+        totalJournalingTime > 0
+          ? formatTotalTime(totalJournalingTime)
+          : "No sessions yet",
+      accent: "from-[#2AFADF]/30 to-[#4C83FF]/10",
+    },
+  ];
+
   return (
     <main className="relative overflow-visible">
       <ThreeSceneWrapper />
@@ -70,8 +140,7 @@ export default function Home() {
               </h1>
               <p className="text-lg text-[var(--text-secondary)] dark:text-white/70">
                 Streaming ambient howls, mindful prompts, and a responsive AI
-                core that mirrors the calm studio you deserve. Built with Framer
-                Motion, shadcn-inspired primitives, and a custom three.js bloom.
+                core that mirrors the calm studio you deserve.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
