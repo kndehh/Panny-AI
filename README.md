@@ -66,7 +66,7 @@ If you want to run this project locally, follow these steps:
    ```
 4. The server will be running on `http://localhost:5000`.
 
-## 📄 Requirements
+## Requirements
 
 The following Python packages are required for the backend:
 
@@ -89,4 +89,4 @@ This project was developed collaboratively by the following team:
 - **AI Model Development**: [PokerTick](https://github.com/pokertick)
 - **Website Tester and Data Collector**: [Joshhh1144](https://github.com/Joshhh1144)
 
-Also thank you to the university team for their support and to the community for providing open-source project, tools, and the inspiration.
+Lastly thank you to the university team for their support and to the community for providing open-source project, tools, and the inspiration.
