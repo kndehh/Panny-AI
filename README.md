@@ -36,7 +36,7 @@ If you want to run this project locally, follow these steps:
 
 #### Client Setup:
 
-1. Navigate to the `forntEnd` directory:
+1. Navigate to the `FrontEnd` directory:
    ```bash
    cd frontEnd
    ```
